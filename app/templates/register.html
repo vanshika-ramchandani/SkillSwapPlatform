@@ -1,25 +1,40 @@
-{% extends "base.html" %} {% block title %}Sign Up{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Register - Skill Swap{% endblock %}
 
 {% block content %}
-<form method="POST">
-    <h3 align="center">Sign Up</h3>
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+<div class="container">
+    <div class="register-box">
+        <form id="registerForm" method="POST" action="{{ url_for('auth.register') }}">
+            <h3 class="mb-4 text-center">Create Account</h3>
+
+            <div id="registerStep1">
+                <div class="mb-3">
+                    <label for="registerName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="registerName" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="registerEmail" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmRegisterPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmRegisterPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-purple w-100">Register</button>
+                    <p class="mt-3">
+                        Already have an account?
+                        <a href="{{ url_for('auth.login') }}" class="link">Login</a>
+                    </p>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
-    </div>
-    <div class="form-group">
-        <label for="password1">Password</label>
-        <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter password">
-    </div>
-    <div class="form-group">
-        <label for="password2">Confirm Password</label>
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm password">
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
 {% endblock %}

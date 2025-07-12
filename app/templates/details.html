@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile - Skill Swap{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+
+  <!-- Request Button -->
+  <div class="d-flex justify-content-start mb-3">
+    <a href="#" class="btn btn-primary request-btn">
+      Request
+    </a>
+  </div>
+
+  <div class="row align-items-start">
+    <!-- Left Side: Info -->
+    <div class="col-md-7">
+      <div class="ms-3">
+        <h2 class="user-name">{{ user.name }}</h2>
+
+        <!-- Skills Offered -->
+        <div class="mb-4">
+          <h5>Skills Offered</h5>
+          <ul>
+            {% for skill in user.offered_skills %}
+              <li>{{ skill.skill.name }}</li>
+            {% else %}
+              <li>No skills offered listed</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Skills Wanted -->
+        <div class="mb-4">
+          <h5>Skills Wanted</h5>
+          <ul>
+            {% for skill in user.wanted_skills %}
+              <li>{{ skill.skill.name }}</li>
+            {% else %}
+              <li>No skills wanted listed</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side: Profile Photo -->
+    <div class="col-md-5 d-flex justify-content-center">
+      <img src="{{ user.profile_photo or url_for('static', filename='img/default-avatar.png') }}"
+           class="rounded-circle profile-photo" alt="Profile Photo">
+    </div>
+  </div>
+
+  <!-- Rating and Feedback Centered -->
+  <div class="rating-section">
+    <h5>Rating & Feedback</h5>
+    {% set total = 0 %}
+    {% set count = 0 %}
+    {% for request in user.requests_received %}
+      {% for feedback in request.feedback %}
+        {% set total = total + feedback.rating %}
+        {% set count = count + 1 %}
+      {% endfor %}
+    {% endfor %}
+
+    {% if count > 0 %}
+      <p>⭐ {{ '%.1f' % (total / count) }} / 5.0 from {{ count }} rating{{ 's' if count > 1 }}</p>
+    {% else %}
+      <p>No feedback yet</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

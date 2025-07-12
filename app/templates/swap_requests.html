@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Send Skill Swap Request{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow p-4" style="max-width: 600px; margin: auto; background-color: #F9F3EF; border-radius: 15px;">
+    <h4 class="mb-4 text-center" style="color: #1B3C53;">Send Skill Swap Request</h4>
+    <form method="POST" action="{{ url_for('send_request', receiver_id=receiver.id) }}">
+      {{ form.hidden_tag() }}
+
+      <!-- Your Offered Skills -->
+      <div class="mb-3">
+        <label for="offered_skill" class="form-label">Choose one of your offered skills</label>
+        <select class="form-select" id="offered_skill" name="offered_skill" required>
+          <option value="" disabled selected>Select a skill</option>
+          {% for skill in offered_skills %}
+            <option value="{{ skill.id }}">{{ skill.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Their Wanted Skills -->
+      <div class="mb-3">
+        <label for="wanted_skill" class="form-label">Choose one of their wanted skills</label>
+        <select class="form-select" id="wanted_skill" name="wanted_skill" required>
+          <option value="" disabled selected>Select a skill</option>
+          {% for skill in wanted_skills %}
+            <option value="{{ skill.id }}">{{ skill.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Message -->
+      <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Say something nice..."></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary px-4" style="background-color: #456882;">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

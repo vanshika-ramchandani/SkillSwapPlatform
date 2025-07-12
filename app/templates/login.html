@@ -1,24 +1,67 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+
+{% block title %}Login {% endblock %}
+
+{% block head %}
+
+{% endblock %}
 
 {% block content %}
-<h3 align="center">Login</h3>
-<form method="POST" action="/login">
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="login-box">
+    <h3 class="mb-4 text-center">Login to Your Account</h3>
 
-<hr>
-<div class="text-center">
-    <p>or</p>
-    <a href="{{ url_for('auth.login_google') }}" class="btn btn-danger">Login with Google</a>
+    <form id="loginForm" method="POST" action="{{ url_for('auth.login') }}">
+        <div id="loginStep1">
+            <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="loginEmail" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" name="password" required>
+            </div>
+            <div class="mb-2 text-end">
+                <a href="#" class="link" id="forgotPasswordLink">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-purple w-100">Login</button>
+            <a href="{{ url_for('auth.register') }}" class="link d-block mt-3 text-center">Don't have an account? Create
+                one</a>
+        </div>
+
+        <div id="forgotPassword" style="display: none;">
+            <div class="mb-3">
+                <input type="text" id="otpCode" name="otp" placeholder="Enter OTP" class="form-control"
+                    style="display: none;">
+                <span id="loginOtpTimerDisplay" style="display: none;"></span>
+            </div>
+            <button type="submit" class="btn btn-purple w-100">Verify & Login</button>
+            <div class="text-center mt-2">
+                <a href="#" class="link" id="resendLoginOtp">Resend OTP</a>
+            </div>
+            <div class="text-center mt-2">
+                <a href="#" class="link" id="backToLogin">← Back</a>
+            </div>
+        </div>
+    </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('forgotPasswordLink').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('loginStep1').style.display = 'none';
+        document.getElementById('forgotPassword').style.display = 'block';
+        document.getElementById('otpCode').style.display = 'block';
+        document.getElementById('loginOtpTimerDisplay').style.display = 'inline';
+    });
+
+    document.getElementById('backToLogin').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('loginStep1').style.display = 'block';
+        document.getElementById('forgotPassword').style.display = 'none';
+    });
+</script>
 {% endblock %}
