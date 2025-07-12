@@ -29,4 +29,4 @@ with app.app_context():
         if not Skill.query.filter_by(name=name).first():
             db.session.add(Skill(name=name))
     db.session.commit()
-    print("✅ Added 100+ skills including 'Others' to Skill table.")
+    print("Added 100+ skills including 'Others' to Skill table.")

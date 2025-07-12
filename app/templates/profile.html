@@ -1,85 +1,80 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-  <h2 class="mb-4 text-center">Edit Profile</h2>
+<div class="container mt-4">
+  <h2>Edit Profile</h2>
 
-  <form method="POST">
-
-    <!-- Profile Picture -->
-    <div class="text-center mb-4">
-      <div class="profile-pic mx-auto"
-           style="width: 120px; height: 120px; border-radius: 50%; background-size: cover; background-position: center; background-image: url('{{ current_user.profile_photo or url_for('static', filename='img/default.png') }}');">
-      </div>
-      <p class="mt-2"><strong>{{ current_user.name }}</strong><br>{{ current_user.email }}</p>
-    </div>
-
+  <form method="POST" action="{{ url_for('profile.update_profile') }}">
     <!-- Name -->
-    <div class="form-group mb-3">
+    <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" name="name" class="form-control" value="{{ current_user.name }}" required>
+      <input type="text" id="name" name="name" class="form-control" value="{{ current_user.name }}">
     </div>
 
     <!-- Location -->
-    <div class="form-group mb-3">
+    <div class="form-group">
       <label for="location">Location</label>
-      <input type="text" name="location" class="form-control" value="{{ current_user.location }}">
+      <input type="text" id="location" name="location" class="form-control" value="{{ current_user.location }}">
     </div>
 
-    <!-- Skills Offered -->
-    <div class="form-group mb-3">
-      <label for="skills_offered">Skills You Offer</label>
-      <select name="skills_offered[]" class="form-control" multiple size="5" required>
-        {% for skill in all_skills %}
-          <option value="{{ skill.id }}" {% if skill.id in offered_ids %}selected{% endif %}>{{ skill.name }}</option>
-        {% endfor %}
-      </select>
-    </div>
+    <!-- Skills -->
+    <div class="row">
+      <div class="col-md-6">
+        <label for="skills-offered">Skills Offered</label>
+        <select id="skills-offered" name="skills_offered[]" multiple class="form-control">
+          {% for skill in all_skills %}
+            <option value="{{ skill.id }}" {% if skill.id in offered_ids %}selected{% endif %}>{{ skill.name }}</option>
+          {% endfor %}
+          <option value="custom_offered">Other...</option>
+        </select>
+        <input type="text" name="custom_offered" class="form-control mt-1" placeholder="Enter custom skill">
+      </div>
 
-    <!-- Skills Wanted -->
-    <div class="form-group mb-3">
-      <label for="skills_wanted">Skills You Want to Learn</label>
-      <select name="skills_wanted[]" class="form-control" multiple size="5" required>
-        {% for skill in all_skills %}
-          <option value="{{ skill.id }}" {% if skill.id in wanted_ids %}selected{% endif %}>{{ skill.name }}</option>
-        {% endfor %}
-      </select>
+      <div class="col-md-6">
+        <label for="skills-wanted">Skills Wanted</label>
+        <select id="skills-wanted" name="skills_wanted[]" multiple class="form-control">
+          {% for skill in all_skills %}
+            <option value="{{ skill.id }}" {% if skill.id in wanted_ids %}selected{% endif %}>{{ skill.name }}</option>
+          {% endfor %}
+          <option value="custom_wanted">Other...</option>
+        </select>
+        <input type="text" name="custom_wanted" class="form-control mt-1" placeholder="Enter custom skill">
+      </div>
     </div>
 
     <!-- Availability -->
-    <div class="form-group mb-3">
+    <div class="form-group mt-3">
       <label for="availability">Availability</label>
-      <select name="availability" class="form-control" required>
-        {% for option in availability_options %}
-          <option value="{{ option.name }}" {% if current_user.availability and current_user.availability.name == option.name %}selected{% endif %}>{{ option.value }}</option>
+      <select id="availability" name="availability" class="form-control">
+        {% for avail in availability_options %}
+          <option value="{{ avail }}" {% if current_user.availability and current_user.availability.value == avail %}selected{% endif %}>{{ avail }}</option>
         {% endfor %}
       </select>
     </div>
 
     <!-- Session Duration -->
-    <div class="form-group mb-3">
-      <label for="session_duration">Preferred Session Duration</label>
-      <select name="session_duration" class="form-control" required>
-        {% for option in session_options %}
-          <option value="{{ option.name }}" {% if current_user.session_duration and current_user.session_duration.name == option.name %}selected{% endif %}>{{ option.value }}</option>
+    <div class="form-group mt-3">
+      <label for="session-hours">Session Duration</label>
+      <select id="session-hours" name="session_hours" class="form-control">
+        {% for s in session_options %}
+          <option value="{{ s }}" {% if current_user.session_duration and current_user.session_duration.value == s %}selected{% endif %}>{{ s }}</option>
         {% endfor %}
       </select>
     </div>
 
     <!-- Profile Visibility -->
-    <div class="form-group mb-4">
+    <div class="form-group mt-3">
       <label for="is_public">Profile Visibility</label>
-      <select name="is_public" class="form-control">
+      <select name="is_public" id="is_public" class="form-control">
         <option value="public" {% if current_user.is_public %}selected{% endif %}>Public</option>
         <option value="private" {% if not current_user.is_public %}selected{% endif %}>Private</option>
       </select>
     </div>
 
-    <!-- Submit Buttons -->
-    <div class="text-center">
-      <button type="submit" class="btn btn-success">Save Changes</button>
+    <!-- Buttons -->
+    <div class="mt-4 d-flex justify-content-between">
+      <button class="btn btn-success" type="submit">Save</button>
       <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary">Cancel</a>
     </div>
-
   </form>
 </div>
 {% endblock %}

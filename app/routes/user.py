@@ -21,30 +21,28 @@ def update_profile():
         current_user.session_duration = request.form.get('session_hours')
         current_user.is_public = request.form.get('is_public') == 'public'
 
-        # Clear existing skills
+        # Clear current skills
         UserSkill.query.filter_by(user_id=current_user.id).delete()
         UserWantSkill.query.filter_by(user_id=current_user.id).delete()
 
-        # Offered skills
-        offered_skill_ids = request.form.getlist('skills_offered[]')
-        for skill_id in offered_skill_ids:
+        # Offered skills (existing and custom)
+        for skill_id in request.form.getlist('skills_offered[]'):
             if skill_id == "custom_offered":
-                custom_skill_name = request.form.get("custom_offered", "").strip()
-                if custom_skill_name:
-                    new_skill = Skill(name=custom_skill_name, is_custom=True)
+                custom_skill = request.form.get("custom_offered", "").strip()
+                if custom_skill:
+                    new_skill = Skill(name=custom_skill, is_custom=True)
                     db.session.add(new_skill)
                     db.session.flush()
                     db.session.add(UserSkill(user_id=current_user.id, skill_id=new_skill.id))
             else:
                 db.session.add(UserSkill(user_id=current_user.id, skill_id=int(skill_id)))
 
-        # Wanted skills
-        wanted_skill_ids = request.form.getlist('skills_wanted[]')
-        for skill_id in wanted_skill_ids:
+        # Wanted skills (existing and custom)
+        for skill_id in request.form.getlist('skills_wanted[]'):
             if skill_id == "custom_wanted":
-                custom_wanted_name = request.form.get("custom_wanted", "").strip()
-                if custom_wanted_name:
-                    new_skill = Skill(name=custom_wanted_name, is_custom=True)
+                custom_skill = request.form.get("custom_wanted", "").strip()
+                if custom_skill:
+                    new_skill = Skill(name=custom_skill, is_custom=True)
                     db.session.add(new_skill)
                     db.session.flush()
                     db.session.add(UserWantSkill(user_id=current_user.id, skill_id=new_skill.id))
@@ -55,6 +53,7 @@ def update_profile():
         flash("Profile updated successfully!", "success")
         return redirect(url_for('auth.profile'))
 
+    # Dropdown options
     availability_options = [a.value for a in AvailabilityEnum]
     session_options = [s.value for s in SessionDurationEnum]
 

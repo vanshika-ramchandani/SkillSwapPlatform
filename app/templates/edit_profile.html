@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Edit Profile</h2>
+
+  <form method="POST" action="{{ url_for('auth.profile.update_profile') }}">
+    <!-- Name -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" id="name" name="name" class="form-control" value="{{ current_user.name }}">
+    </div>
+
+    <!-- Location -->
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input type="text" id="location" name="location" class="form-control" value="{{ current_user.location }}">
+    </div>
+
+    <!-- Skills -->
+    <div class="row">
+      <!-- Skills Offered -->
+      <div class="col-md-6 mb-3">
+        <label for="skills-offered" class="form-label">Skills Offered</label>
+        <select name="skills_offered[]" id="skills-offered" class="form-select" multiple size="5">
+          {% for skill in all_skills %}
+            <option value="{{ skill.id }}"
+              {% if skill.id in offered_ids %}selected{% endif %}>
+              {{ skill.name }}
+            </option>
+          {% endfor %}
+          <option value="custom_offered">Other...</option>
+        </select>
+        <input type="text" name="custom_offered" placeholder="Enter custom offered skill" class="form-control mt-2">
+      </div>
+
+      <!-- Skills Wanted -->
+      <div class="col-md-6 mb-3">
+        <label for="skills-wanted" class="form-label">Skills Wanted</label>
+        <select name="skills_wanted[]" id="skills-wanted" class="form-select" multiple size="5">
+          {% for skill in all_skills %}
+            <option value="{{ skill.id }}"
+              {% if skill.id in wanted_ids %}selected{% endif %}>
+              {{ skill.name }}
+            </option>
+          {% endfor %}
+          <option value="custom_wanted">Other...</option>
+        </select>
+        <input type="text" name="custom_wanted" placeholder="Enter custom wanted skill" class="form-control mt-2">
+      </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="mb-3">
+      <label for="availability" class="form-label">Availability</label>
+      <select name="availability" id="availability" class="form-select">
+        {% for option in availability_options %}
+          <option value="{{ option }}"
+            {% if current_user.availability and current_user.availability.value == option %}selected{% endif %}>
+            {{ option }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Session Duration -->
+    <div class="mb-3">
+      <label for="session_hours" class="form-label">Preferred Session Duration</label>
+      <select name="session_hours" id="session_hours" class="form-select">
+        {% for option in session_options %}
+          <option value="{{ option }}"
+            {% if current_user.session_duration and current_user.session_duration.value == option %}selected{% endif %}>
+            {{ option }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Profile Visibility -->
+    <div class="mb-4">
+      <label for="is_public" class="form-label">Profile Visibility</label>
+      <select name="is_public" id="is_public" class="form-select">
+        <option value="public" {% if current_user.is_public %}selected{% endif %}>Public</option>
+        <option value="private" {% if not current_user.is_public %}selected{% endif %}>Private</option>
+      </select>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-success">Save Changes</button>
+      <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
