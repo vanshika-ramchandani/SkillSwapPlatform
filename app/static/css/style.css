@@ -1,0 +1,101 @@
+body {
+  background-color: #F9F3EF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.custom-navbar {
+  background-color: #1B3C53 !important;
+  border-bottom: 2px solid #D2C1B6;
+}
+
+.navbar-brand {
+  color: #F9F3EF !important;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  color: #D2C1B6 !important;
+  font-weight: 500;
+  margin-left: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff !important;
+}
+
+.profile-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #456882;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #F9F3EF;
+  color: #1B3C53;
+}
+
+.custom-navbar {
+  background-color: #1B3C53;
+  color: #F9F3EF;
+}
+
+.navbar .nav-link, .navbar .navbar-brand {
+  color: #F9F3EF;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+  color: #D2C1B6;
+  text-decoration: underline;
+}
+
+/* === Profile Page Styles === */
+.profile-page {
+  background-color: #F9F3EF;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-page .request-btn {
+  background-color: #456882;
+  border-color: #456882;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+}
+
+.profile-page .user-name {
+  color: #1B3C53;
+  margin-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-page h5 {
+  color: #1B3C53;
+  margin-left: 1rem;
+}
+
+.profile-page ul {
+  margin-left: 2rem;
+}
+
+.profile-page .profile-photo {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 3px solid #D2C1B6;
+}
+
+.profile-page .rating-section {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.profile-page .rating-section h5 {
+  color: #1B3C53;
+}
